@@ -502,6 +502,31 @@ describe('bro', function() {
     });
 
 
+    it('should configure transform with path set and require using path', function(done) {
+
+      // given
+      var plugin = createPlugin({
+        browserify: {
+          transform: [ 'brfs' ],
+          paths: [ './test']
+        }
+      });
+
+      var bundleFile = createFile(bundle.location);
+      var testFile = createFile('test/fixtures/d.js');
+
+      // when
+      plugin.preprocess(bundleFile, [ testFile ], function() {
+
+        // then
+
+        // bundle got created
+        expect(bundleFile.bundled).to.contain("module.exports = 'D' + a;");
+
+        done();
+      });
+    });
+
     it('should configure transform with options', function(done) {
 
       // given
